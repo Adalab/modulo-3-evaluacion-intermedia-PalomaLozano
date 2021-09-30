@@ -1,32 +1,11 @@
 import { useState } from 'react';
 import '../styles/_App.scss';
-//import { useState } from 'react';
+import data from './data.json';
 
 function App() {
   const firstTitle = 'Mis clubs';
   const secondTitle = 'Añadir nuevo club';
-  const [clubList, setClubList] = useState([
-    {
-      name: 'Book club',
-      openOnWeekdays: true,
-      openOnWeekend: true,
-    },
-    {
-      name: 'Chess club',
-      openOnWeekdays: false,
-      openOnWeekend: true,
-    },
-    {
-      name: 'Escape room club',
-      openOnWeekdays: false,
-      openOnWeekend: false,
-    },
-    {
-      name: 'Debate club',
-      openOnWeekdays: true,
-      openOnWeekend: false,
-    },
-  ]);
+  const [clubList, setClubList] = useState(data);
 
   const [newList, setNewList] = useState([
     {
@@ -87,7 +66,7 @@ function App() {
       <main>
         <ul>{htmlFirstPainted()}</ul>
 
-        <h2>{secondTitle}</h2>
+        <label htmlFor="">{secondTitle}</label>
 
         <form>
           <input
@@ -97,7 +76,7 @@ function App() {
             placeholder="Añade un nuevo club"
             onChange={handleNewList}
           ></input>
-          <p>¿Abre entre semana?</p>
+          <label htmlFor="">¿Abre entre semana?</label>
           <input
             type="checkbox"
             name="week"
@@ -105,7 +84,7 @@ function App() {
             value="week"
             onChange={handleNewList}
           ></input>
-          <p>¿Abre los fines de semana?</p>
+          <label htmlFor="">¿Abre los fines de semana?</label>
           <input
             type="checkbox"
             name="weekend"
@@ -113,7 +92,13 @@ function App() {
             value="weekend"
             onChange={handleNewList}
           ></input>
-          <input type="submit" onclick={handleClick}></input>
+          <input
+            type="submit"
+            name="btn"
+            id="btn"
+            value="añadir un nuevo club"
+            onclick={handleClick}
+          ></input>
         </form>
       </main>
     </div>
