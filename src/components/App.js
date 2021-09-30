@@ -6,20 +6,40 @@ function App() {
   const firstTitle = 'Mis clubs';
   const secondTitle = 'Añadir nuevo club';
   const [clubList, setClubList] = useState(data);
+  const [name, setName] = useState('');
+  const [openOnWeekdays, setopenOnWeekdays] = useState(false);
+  const [openOnWeekends, setopenOnWeekends] = useState(false);
 
-  const [newList, setNewList] = useState([
-    {
-      name: '',
-      openOnWeekdays: '',
-      openOnWeekend: '',
-    },
-  ]);
+  const handleName = (ev) => {
+    setName(ev.target.value);
+  };
+
+  const handleOnWeekdays = (ev) => {
+    setopenOnWeekdays(ev.target.checked);
+  };
+
+  const handleOnWeekends = (ev) => {
+    setopenOnWeekends(ev.target.checked);
+  };
+
+  const handleClub = (ev) => {
+    ev.preventDefault();
+    clubList.push({
+      name: name,
+      openOnWeekdays: openOnWeekdays,
+      openOnWeekends: openOnWeekends,
+    });
+    setClubList([...clubList]);
+  };
 
   const htmlFirstPainted = () => {
     return clubList.map((club, index) => {
       return (
         <li key={index}>
-          <h3>{club.name}</h3>
+          <h3>
+            #{index}
+            {club.name}
+          </h3>
           <p>
             Abierto entre semana: {club.openOnWeekdays === true ? 'Sí' : 'No'}
           </p>
@@ -32,32 +52,6 @@ function App() {
     });
   };
 
-  const handleClick = (ev) => {
-    ev.preventDefault();
-    setClubList([...clubList, newList]);
-  };
-
-  const handleNewList = (ev) => {
-    if (ev.currentTarget.id === 'club') {
-      setNewList({
-        ...newList,
-        name: ev.currentTarget.value,
-      });
-    } else if (ev.currentTarget.checked === true) {
-      setNewList({
-        ...newList,
-        openOnWeekdays: ev.currentTarget.checked,
-        openOnWeekend: ev.currentTarget.checked,
-      });
-    } else if (ev.currentTarget.checked === false) {
-      setNewList({
-        ...newList,
-        openOnWeekdays: ev.currentTarget.checked,
-        openOnWeekend: ev.currentTarget.checked,
-      });
-    }
-  };
-
   return (
     <div>
       <header>
@@ -66,39 +60,40 @@ function App() {
       <main>
         <ul>{htmlFirstPainted()}</ul>
 
-        <label htmlFor="">{secondTitle}</label>
+        <form onSubmit={handleClub}>
+          <label htmlFor="">{secondTitle}</label>
 
-        <form>
           <input
             type="text"
             name="club"
             id="club"
-            placeholder="Añade un nuevo club"
-            onChange={handleNewList}
+            placeholder="Añade nombre del club"
+            value={name}
+            onChange={handleName}
           ></input>
           <label htmlFor="">¿Abre entre semana?</label>
           <input
             type="checkbox"
-            name="week"
-            id="week"
-            value="week"
-            onChange={handleNewList}
-          ></input>
+            name="openOnWeekdays"
+            id="openOnWeekdays"
+            checked={openOnWeekdays}
+            onChange={handleOnWeekdays}
+          />
           <label htmlFor="">¿Abre los fines de semana?</label>
           <input
             type="checkbox"
-            name="weekend"
-            id="weekend"
-            value="weekend"
-            onChange={handleNewList}
-          ></input>
+            name="openOnWeekend"
+            id="openOnWeekend"
+            checked={openOnWeekends}
+            onChange={handleOnWeekends}
+          />
+
           <input
             type="submit"
             name="btn"
             id="btn"
             value="añadir un nuevo club"
-            onclick={handleClick}
-          ></input>
+          />
         </form>
       </main>
     </div>
