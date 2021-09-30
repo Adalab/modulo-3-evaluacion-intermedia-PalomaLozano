@@ -9,6 +9,7 @@ function App() {
   const [name, setName] = useState('');
   const [openOnWeekdays, setopenOnWeekdays] = useState(false);
   const [openOnWeekends, setopenOnWeekends] = useState(false);
+  const [filterSelect, setFilterSelect] = useState('all');
 
   const handleName = (ev) => {
     setName(ev.target.value);
@@ -22,40 +23,64 @@ function App() {
     setopenOnWeekends(ev.target.checked);
   };
 
+  const handleSelect = (ev) => {
+    setFilterSelect(ev.target.value);
+  };
   const handleClub = (ev) => {
     ev.preventDefault();
     clubList.push({
       name: name,
       openOnWeekdays: openOnWeekdays,
-      openOnWeekends: openOnWeekends,
+      openOnWeekend: openOnWeekends,
     });
     setClubList([...clubList]);
+    setName('');
+    setopenOnWeekdays('');
+    setopenOnWeekends('');
   };
 
   const htmlFirstPainted = () => {
-    return clubList.map((club, index) => {
-      return (
-        <li key={index}>
-          <h3>
-            #{index}
-            {club.name}
-          </h3>
-          <p>
-            Abierto entre semana: {club.openOnWeekdays === true ? 'Sí' : 'No'}
-          </p>
-          <p>
-            Abierto el fin de semana:{' '}
-            {club.openOnWeekend === true ? 'Sí' : 'No'}
-          </p>
-        </li>
-      );
-    });
+    return clubList
+      .filter((club) => {
+        if (filterSelect === 'openOnWeekdays') {
+          return club.openOnWeekdays === true;
+        } else if (filterSelect === 'openOnWeekend') {
+          return club.openOnWeekend === true;
+        }
+        return true;
+      })
+      .map((club, index) => {
+        return (
+          <li key={index}>
+            <h3>
+              #{index}
+              {club.name}
+            </h3>
+
+            <p>
+              Abierto entre semana: {club.openOnWeekdays === true ? 'Sí' : 'No'}
+            </p>
+            <p>
+              Abierto el fin de semana:{' '}
+              {club.openOnWeekend === true ? 'Sí' : 'No'}
+            </p>
+            <button>X</button>
+          </li>
+        );
+      });
   };
 
   return (
     <div>
       <header>
         <h2>{firstTitle}</h2>
+        <form action="">
+          <select value={filterSelect} onChange={handleSelect}>
+            <option value="all">Todos</option>
+            <option value="openOnWeekdays">Abren entre diario</option>
+            <option value="openOnWeekend">Abren en fin de semana</option>
+          </select>
+        </form>
       </header>
       <main>
         <ul>{htmlFirstPainted()}</ul>
