@@ -1,21 +1,21 @@
 [
     {
-      "name": "Book club",
+      "name": "Comprar nuevo teclado",
       "openOnWeekdays": true,
       "openOnWeekend": true
     },
     {
-      "name": "Chess club",
+      "name": "Recoger a Rolo del veterinario",
       "openOnWeekdays": false,
       "openOnWeekend": true
     },
     {
-      "name": "Escape room club",
+      "name": "Arreglar manguera del patio",
       "openOnWeekdays": false,
       "openOnWeekend": false
     },
     {
-      "name": "Debate club",
+      "name": "Desayunar con compañero de trabajo",
       "openOnWeekdays": true,
       "openOnWeekend": false
     }

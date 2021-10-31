@@ -1,0 +1,77 @@
+.form {
+  justify-content: space-around;
+  text-align: center;
+  padding-top: 30px;
+  height: 68px;
+  width: 100%;
+  background-color: cadetblue;
+}
+.formStyle {
+  justify-content: center;
+  align-items: center;
+  background-color: azure;
+  font-family: 'Zen Antique', serif;
+  font-size: 20px;
+  padding-bottom: 8px;
+}
+
+.ulSection {
+  background-color: azure;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  .liStyle {
+    padding: 20px;
+    font-family: 'Zen Antique', serif;
+    font-size: 20px;
+  }
+}
+
+.formSubmit {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 15px;
+  font-family: 'Zen Antique', serif;
+  background-color: cadetblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  @media all and (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .addNote {
+    font-size: 20px;
+    color: azure;
+    padding-bottom: 10px;
+    @media all and (min-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  }
+  .addInput {
+    height: 100px;
+    margin-right: 15px;
+    @media all and (min-width: 768px) {
+      width: 700px;
+    }
+  }
+  .input {
+    margin-top: 30px;
+    font-size: 20px;
+    color: azure;
+    padding-bottom: 10px;
+  }
+
+  .button {
+    margin-top: 30px;
+    width: 150px;
+    height: 40px;
+    color: azure;
+    background-color: rgb(151, 206, 206);
+    border-radius: 10px;
+  }
+}

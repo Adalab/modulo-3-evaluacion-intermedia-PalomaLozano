@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/_App.scss';
 import data from './data.json';
+import localStorage from '../services/local-storage';
+import Header from './Header';
 
 function App() {
-  const firstTitle = 'Mis clubs';
-  const secondTitle = 'Añadir nuevo club';
-  const [clubList, setClubList] = useState(data);
+  let dataUse = !localStorage.get('clubList', '')
+    ? data
+    : localStorage.get('clubList', '');
+  const secondTitle = 'Añadir nueva nota';
+  const [clubList, setClubList] = useState(dataUse);
   const [name, setName] = useState('');
   const [openOnWeekdays, setopenOnWeekdays] = useState(false);
   const [openOnWeekends, setopenOnWeekends] = useState(false);
@@ -39,6 +43,16 @@ function App() {
     setopenOnWeekends('');
   };
 
+  const handleDelete = (ev) => {
+    const clickedId = ev.currentTarget.id;
+    clubList.splice(clickedId, 1);
+    setClubList([...clubList]);
+  };
+
+  useEffect(() => {
+    localStorage.set('clubs', clubList);
+  }, [clubList]);
+
   const htmlFirstPainted = () => {
     return clubList
       .filter((club) => {
@@ -51,52 +65,61 @@ function App() {
       })
       .map((club, index) => {
         return (
-          <li key={index}>
-            <h3>
-              #{index}
-              {club.name}
-            </h3>
-
-            <p>
-              Abierto entre semana: {club.openOnWeekdays === true ? 'Sí' : 'No'}
-            </p>
-            <p>
-              Abierto el fin de semana:{' '}
-              {club.openOnWeekend === true ? 'Sí' : 'No'}
-            </p>
-            <button>X</button>
-          </li>
+          <section className="liStyle">
+            <li key={index}>
+              <h3>
+                #{index}
+                {club.name}
+              </h3>
+              <p>Es urgente: {club.openOnWeekdays === true ? 'Sí' : 'No'}</p>
+              <p>
+                Necesario incluso en fin de semana:{' '}
+                {club.openOnWeekend === true ? 'Sí' : 'No'}
+              </p>
+              <button onClick={handleDelete}>Borrar nota</button>
+            </li>
+          </section>
         );
       });
   };
 
   return (
     <div>
-      <header>
-        <h2>{firstTitle}</h2>
-        <form action="">
-          <select value={filterSelect} onChange={handleSelect}>
-            <option value="all">Todos</option>
-            <option value="openOnWeekdays">Abren entre diario</option>
-            <option value="openOnWeekend">Abren en fin de semana</option>
-          </select>
-        </form>
+      <header className="header">
+        <Header />
       </header>
-      <main>
-        <ul>{htmlFirstPainted()}</ul>
 
-        <form onSubmit={handleClub}>
-          <label htmlFor="">{secondTitle}</label>
+      <main>
+        <section className="form">
+          <form action="" className="formStyle">
+            <select value={filterSelect} onChange={handleSelect}>
+              <option value="all">Todos</option>
+              <option value="openOnWeekdays">Urgente</option>
+              <option value="openOnWeekend">
+                ¿Es necesario incluso en fin de semana?
+              </option>
+            </select>
+          </form>
+        </section>
+        <ul className="ulSection">{htmlFirstPainted()}</ul>
+
+        <form onSubmit={handleClub} className="formSubmit">
+          <label htmlFor="" className="addNote">
+            {secondTitle}
+          </label>
 
           <input
             type="text"
             name="club"
             id="club"
-            placeholder="Añade nombre del club"
+            placeholder="Añade una nueva nota"
+            className="addInput"
             value={name}
             onChange={handleName}
           ></input>
-          <label htmlFor="">¿Abre entre semana?</label>
+          <label htmlFor="" className="input">
+            ¿Es urgente?
+          </label>
           <input
             type="checkbox"
             name="openOnWeekdays"
@@ -104,7 +127,9 @@ function App() {
             checked={openOnWeekdays}
             onChange={handleOnWeekdays}
           />
-          <label htmlFor="">¿Abre los fines de semana?</label>
+          <label htmlFor="" className="input">
+            ¿Es necesario incluso en fin de semana?
+          </label>
           <input
             type="checkbox"
             name="openOnWeekend"
@@ -117,7 +142,8 @@ function App() {
             type="submit"
             name="btn"
             id="btn"
-            value="añadir un nuevo club"
+            value="añadir un nueva nota"
+            className="button"
           />
         </form>
       </main>
